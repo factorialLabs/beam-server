@@ -7,6 +7,9 @@ var Socket = {
 		    that.io.emit('incoming beam', {url: 'http://techretreat.ca'});
 		    socket.on('sign in', that.onSignIn);
 		    socket.on('disconnect', that.disconnect);
+		    socket.on('beam tab', function(msg){
+		    	that.io.emit('incoming beam', {url: msg.url});
+		    });
 		});	
 	},
 	onSignIn: function(msg){
