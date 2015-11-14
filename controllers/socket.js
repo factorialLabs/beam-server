@@ -1,18 +1,20 @@
-exports.setIo = function(io){
-    exports.io = io;
+var Socket = {
+	setIo: function(io){
+		this.io = io; 
+		var that = this; 
+		this.io.on("connection", function(socket){
+			console.log('connection', socket);
+		    that.io.emit('incoming beam', {url: 'http://techretreat.ca'});
+		    socket.on('sign in', that.onSignIn);
+		    socket.on('disconnect', that.disconnect);
+		});	
+	},
+	onSignIn: function(msg){
+		console.log("Sign in", msg);
+	},
+	disconnect: function(msg){
+		console.log("Disconnect", msg);
+	}
 };
 
-exports.connection = function(socket){
-    console.log('connection', socket);
-    exports.io.emit('incoming beam', {url: 'http://techretreat.ca'});
-    socket.on('sign in', exports.onSignIn);
-    socket.on('disconnect', exports.disconnect);
-};
-
-exports.onSignIn = function(msg){
-    console.log('sign in', msg);
-};
-
-exports.disconnect = function(msg){
-    console.log('disconnect', msg);
-};
+module.exports = Socket; 

@@ -30,7 +30,6 @@ var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var socketController = require('./controllers/socket');
-
 /**
  * API keys and Passport configuration.
  */
@@ -101,7 +100,6 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  *  Socket connection endpoints
  */
 socketController.setIo(io);
-io.on('connection', socketController.connection);
 
 /**
  * Primary app routes.
