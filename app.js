@@ -29,6 +29,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var socketController = require('./controllers/socket');
 
 /**
  * API keys and Passport configuration.
@@ -40,6 +41,8 @@ var passportConf = require('./config/passport');
  * Create Express server.
  */
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 /**
  * Connect to MongoDB.
@@ -94,6 +97,10 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+/**
+ *  Socket connection endpoints
+ */
+io.on('connection', socketController.connection);
 
 /**
  * Primary app routes.
@@ -204,7 +211,7 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), function() {
+http.listen(app.get('port'), function(){
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
