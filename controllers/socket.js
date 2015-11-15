@@ -16,7 +16,7 @@ var Socket = {
 
             socket.on('beam tab', function(beam){
                 console.log("incoming beam", beam);
-                var recipient = userIds[beam.message];
+                var recipient = userIds[beam.recipient];
                 io.to(recipient).emit('incoming beam', beam);
             });
             socket.on('sign in', function(socket){
