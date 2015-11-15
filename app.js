@@ -131,7 +131,6 @@ app.post('/api/login', apiController.postLogin);
  * API examples routes.
  */
 app.get('/apiEx', apiExamplesController.getApi);
-app.get('/apiEx/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getTumblr);
 app.get('/apiEx/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getFacebook);
 app.get('/apiEx/github', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getGithub);
 app.get('/apiEx/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getTwitter);
