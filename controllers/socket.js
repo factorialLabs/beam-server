@@ -1,22 +1,20 @@
+"use strict";
 var Socket = {
 	setIo: function(io){
-		this.io = io; 
-		var that = this; 
-		this.io.on("connection", function(socket){
+		io.on("connection", function(socket){
 			console.log('connection', socket);
-		    that.io.emit('incoming beam', {url: 'http://techretreat.ca'});
-		    socket.on('sign in', that.onSignIn);
-		    socket.on('disconnect', that.disconnect);
-		    socket.on('beam tab', function(msg){
-		    	that.io.emit('incoming beam', {url: msg.url});
+		    io.emit('incoming beam', {url: 'http://techretreat.ca'});
+		    
+		    socket.on('beam tab', function(socket){
+		    	io.emit('incoming beam', {url: socket.url});
+		    });
+		    socket.on('sign in', function(socket){
+		    	console.log("user signed in");
+		    });
+		    socket.on('disconnect', function(socket){
+		    	console.log("user disconnected.");
 		    });
 		});	
-	},
-	onSignIn: function(msg){
-		console.log("Sign in", msg);
-	},
-	disconnect: function(msg){
-		console.log("Disconnect", msg);
 	}
 };
 
