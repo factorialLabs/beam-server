@@ -3,7 +3,7 @@ var Socket = {
 	setIo: function(io){
 		io.on("connection", function(socket){
 			console.log('connection');
-		    io.emit('incoming beam', {url: 'http://techretreat.ca'});
+		    //io.emit('incoming beam', {url: 'http://techretreat.ca'});
 		    
 		    socket.on('beam tab', function(beam){
 		    	console.log("incoming beam", beam);
