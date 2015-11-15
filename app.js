@@ -26,6 +26,7 @@ var sass = require('node-sass-middleware');
  */
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
+var apiController = require('./controllers/api');
 var apiExamplesController = require('./controllers/api-examples');
 var contactController = require('./controllers/contact');
 var socketController = require('./controllers/socket');
@@ -34,24 +35,6 @@ var socketController = require('./controllers/socket');
  */
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
-
-/**
- * Use JWT (tokens) as a way of doing auth
- */
-var JwtStrategy = require('passport-jwt').Strategy;
-passport.use(new JwtStrategy(secrets.jwt, function(jwt_payload, done) {
-  User.findOne({id: jwt_payload.sub}, function(err, user) {
-    if (err) {
-      return done(err, false);
-    }
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false);
-      // or you could create a new account
-    }
-  });
-}));
 
 /**
  * Create Express server.
@@ -99,7 +82,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(lusca({
-  csrf: true,
+  csrf: false,
   xframe: 'SAMEORIGIN',
   xssProtection: true
 }));
@@ -138,6 +121,11 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+
+/**
+ * API Routes
+ */
+app.post('/api/login', apiController.postLogin);
 
 /**
  * API examples routes.
