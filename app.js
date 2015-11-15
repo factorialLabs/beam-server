@@ -131,44 +131,15 @@ app.post('/api/login', apiController.postLogin);
  * API examples routes.
  */
 app.get('/apiEx', apiExamplesController.getApi);
-app.get('/apiEx/lastfm', apiExamplesController.getLastfm);
-app.get('/apiEx/nyt', apiExamplesController.getNewYorkTimes);
-app.get('/apiEx/aviary', apiExamplesController.getAviary);
-app.get('/apiEx/steam', apiExamplesController.getSteam);
-app.get('/apiEx/stripe', apiExamplesController.getStripe);
-app.post('/apiEx/stripe', apiExamplesController.postStripe);
-app.get('/apiEx/scraping', apiExamplesController.getScraping);
-app.get('/apiEx/twilio', apiExamplesController.getTwilio);
-app.post('/apiEx/twilio', apiExamplesController.postTwilio);
-app.get('/apiEx/clockwork', apiExamplesController.getClockwork);
-app.post('/apiEx/clockwork', apiExamplesController.postClockwork);
-app.get('/apiEx/foursquare', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getFoursquare);
 app.get('/apiEx/tumblr', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getTumblr);
 app.get('/apiEx/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getFacebook);
 app.get('/apiEx/github', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getGithub);
 app.get('/apiEx/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getTwitter);
 app.post('/apiEx/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.postTwitter);
-app.get('/apiEx/venmo', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getVenmo);
-app.post('/apiEx/venmo', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.postVenmo);
-app.get('/apiEx/linkedin', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getLinkedin);
-app.get('/apiEx/instagram', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getInstagram);
-app.get('/apiEx/yahoo', apiExamplesController.getYahoo);
-app.get('/apiEx/paypal', apiExamplesController.getPayPal);
-app.get('/apiEx/paypal/success', apiExamplesController.getPayPalSuccess);
-app.get('/apiEx/paypal/cancel', apiExamplesController.getPayPalCancel);
-app.get('/apiEx/lob', apiExamplesController.getLob);
-app.get('/apiEx/bitgo', apiExamplesController.getBitGo);
-app.post('/apiEx/bitgo', apiExamplesController.postBitGo);
-app.get('/apiEx/bitcore', apiExamplesController.getBitcore);
-app.post('/apiEx/bitcore', apiExamplesController.postBitcore);
 
 /**
  * OAuth authentication routes. (Sign in)
  */
-app.get('/auth/instagram', passport.authenticate('instagram'));
-app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
@@ -185,28 +156,6 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
-app.get('/auth/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
-app.get('/auth/linkedin/callback', passport.authenticate('linkedin', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-
-/**
- * OAuth authorization routes. (API examples)
- */
-app.get('/auth/foursquare', passport.authorize('foursquare'));
-app.get('/auth/foursquare/callback', passport.authorize('foursquare', { failureRedirect: '/api' }), function(req, res) {
-  res.redirect('/api/foursquare');
-});
-app.get('/auth/tumblr', passport.authorize('tumblr'));
-app.get('/auth/tumblr/callback', passport.authorize('tumblr', { failureRedirect: '/api' }), function(req, res) {
-  res.redirect('/api/tumblr');
-});
-app.get('/auth/venmo', passport.authorize('venmo', { scope: 'make_payments access_profile access_balance access_email access_phone' }));
-app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '/api' }), function(req, res) {
-  res.redirect('/api/venmo');
-});
-
-
 /**
  * Error Handler.
  */
