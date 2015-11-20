@@ -21,7 +21,7 @@
 
 module.exports = {
 
-  db: process.env.MONGODB || 'mongodb://localhost:27017/test',
+  db: process.env.MONGODB || 'mongodb://beamDB:1dAnQuEbEaM1@beam-db.cloudapp.net:27017/admin',
 
   sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
 
