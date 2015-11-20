@@ -103,8 +103,6 @@ debuggingEnabled: true
 debuggerPortRange: 5058-6058
 
 # debuggerPathSegment - URL path segment used to access the built-in node-inspector debugger; given a node.js application at
-http://foo.com/bar/baz.js, the debugger can be accessed at http://foo.com/bar/baz.js/{debuggerPathSegment}, by default
-http://foo.com/bar/baz.js/debug
 
 debuggerPathSegment: debug
 
