@@ -7,7 +7,7 @@
   },
   "engines": {
     "node": "5.0.0",
-    "npm": "3.4.1"
+    "npm": "3.3.9"
   },
   "scripts": {
     "start": "node app.js",
