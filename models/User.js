@@ -4,7 +4,12 @@ var mongoose = require('mongoose');
 
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
+  username: { type: String, unique: true, lowercase: true },
+
   password: String,
+
+  friends: [{ type : Schema.ObjectId, ref : 'User' }],
+  pending_friends: [{ type : Schema.ObjectId, ref : 'User' }],
 
   facebook: String,
   twitter: String,
@@ -50,6 +55,13 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+/**
+ * Helper method to add a friend (adds it into pending requests)
+ */
+userSchema.methods.sendFriendInvite = function(toFriend, cb) {
+
 };
 
 /**

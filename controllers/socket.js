@@ -19,9 +19,11 @@ var Socket = {
                 var recipient = userIds[beam.recipient];
                 io.to(recipient).emit('incoming beam', beam);
             });
+
             socket.on('sign in', function(socket){
                 console.log("user signed in");
             });
+
             socket.on('disconnect', function(socket){
                 console.log("user disconnected.");
             });
