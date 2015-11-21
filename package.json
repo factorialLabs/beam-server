@@ -6,6 +6,7 @@
     "url": "https://github.com/sahat/hackathon-starter.git"
   },
   "engines": {
+    "node": "5.0.0",
     "npm": "3.3.9"
   },
   "scripts": {
