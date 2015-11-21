@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/sahat/hackathon-starter.git"
   },
-  "engines": {ry
+  "engines": {
     "npm": "3.3.9"
   },
   "scripts": {
