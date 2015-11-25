@@ -1,6 +1,8 @@
 "use strict";
 var secrets = require('../config/secrets');
 var socketioJwt = require('socketio-jwt');
+var User = require('../models/User');
+
 var userIds = {};
 
 var Socket = {
@@ -18,6 +20,7 @@ var Socket = {
                 console.log("incoming beam", beam);
                 var recipient = userIds[beam.recipient];
                 io.to(recipient).emit('incoming beam', beam);
+                User.findOne()
             });
 
             socket.on('sign in', function(socket){

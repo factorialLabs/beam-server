@@ -62,7 +62,30 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
  * Helper method to add a friend (adds it into pending requests)
  */
 userSchema.methods.sendFriendInvite = function(toFriend, cb) {
+  //check if already existing
+  var index = this.pending_friends.indexOf(toFriend.id);
+  if(index != -1){
+    this.pending_friends.push(toFriend.id);
+    cb(null);
+  }else{
+    cb({error: 'existing pending request'});
+  }
+};
 
+/**
+ * Helper method to accept a friend request (adds it into friendlist)
+ */
+userSchema.methods.acceptFriendInvite = function(toAccept, cb) {
+  //check if there is an outstanding friend invite
+  var index = this.pending_friends.indexOf(toAccept.id);
+  if(index != -1){
+    cb({error: 'no such request'});
+  }else{
+    this.friends.push(toAccept.id);
+    //remove pending invite
+    this.pending_friends.splice(index, 1);
+    cb(null);
+  }
 };
 
 /**
