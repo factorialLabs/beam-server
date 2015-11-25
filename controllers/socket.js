@@ -73,7 +73,7 @@ var Socket = {
     });
   },
   logout: function(){
-    this.io.disconnect();
+    this.io.disconnect(true);
   }
 };
 
