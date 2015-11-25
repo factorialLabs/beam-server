@@ -71,6 +71,9 @@ var Socket = {
         console.log("user disconnected.");
       });
     });
+  },
+  logout: function(){
+    this.io.disconnect();
   }
 };
 

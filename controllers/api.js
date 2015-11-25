@@ -3,7 +3,6 @@ var secrets = require('../config/secrets');
 var jwt = require('jwt-simple');
 var passport = require('passport');
 var User = require('../models/User');
-var secrets = require('../config/secrets');
 
 /**
  * POST /api/login

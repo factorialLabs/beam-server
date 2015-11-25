@@ -100,7 +100,7 @@ socketController.setIo(io);
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
+app.get('/logout', userController.logout, socketController.logout);
 app.get('/forgot', userController.getForgot);
 app.post('/forgot', userController.postForgot);
 app.get('/reset/:token', userController.getReset);
