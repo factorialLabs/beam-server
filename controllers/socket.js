@@ -14,6 +14,18 @@ var Socket = {
     });
   },
 
+  handleAddFriendRequest: function(from, to, cb){
+    User.findOne({ email: from.toLowerCase() }, function(err, existingUser) {
+      if (existingUser) {
+        User.findOne({ email: to.toLowerCase() }, function(err, toUser) {
+          toUser.getFriendInvite(existingUser, cb);
+        });
+      } else {
+        cb({error: "no user found with that username!"});
+      }
+    });
+  },
+
   setIo: function(io){
     io.on("connection", socketioJwt.authorize({
       secret: secrets.jwt.secretOrKey,
@@ -38,8 +50,17 @@ var Socket = {
         console.log("user is away");
       });
 
-      socket.on('send friend invite', function(socket){
-        console.log("user is sending friend invite");
+      socket.on('send friend invite', function(msg){
+        console.log(socket.decoded_token.email, "is sending friend invite", msg);
+        Socket.handleAddFriendRequest(socket.decoded_token.email, msg, function(err){
+          console.log(err);
+          if(err){
+
+          }else{
+
+          }
+        });
+
       });
 
       socket.on('accept friend invite', function(socket){

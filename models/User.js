@@ -61,11 +61,16 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 /**
  * Helper method to add a friend (adds it into pending requests)
  */
-userSchema.methods.sendFriendInvite = function(toFriend, cb) {
+userSchema.methods.getFriendInvite = function(toFriend, cb) {
+  //cannot be self
+  if(toFriend._id == this._id) {
+    cb({error: 'cannot befriend self'});
+  }
   //check if already existing
-  var index = this.pending_friends.indexOf(toFriend.id);
-  if(index != -1){
+  var index = this.pending_friends.indexOf(toFriend._id);
+  if(index == -1){
     this.pending_friends.push(toFriend.id);
+    this.save();
     cb(null);
   }else{
     cb({error: 'existing pending request'});
@@ -77,11 +82,11 @@ userSchema.methods.sendFriendInvite = function(toFriend, cb) {
  */
 userSchema.methods.acceptFriendInvite = function(toAccept, cb) {
   //check if there is an outstanding friend invite
-  var index = this.pending_friends.indexOf(toAccept.id);
+  var index = this.pending_friends.indexOf(toAccept._id);
   if(index != -1){
     cb({error: 'no such request'});
   }else{
-    this.friends.push(toAccept.id);
+    this.friends.push(toAccept._id);
     //remove pending invite
     this.pending_friends.splice(index, 1);
     cb(null);
