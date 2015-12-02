@@ -39,6 +39,7 @@ var Socket = {
       socket.on('beam tab', function(beam){
         console.log("incoming beam", beam);
         var recipient = userIds[beam.recipient];
+        beam.fromUser = socket.decoded_token.email;
         io.to(recipient).emit('incoming beam', beam);
       });
 
