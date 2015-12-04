@@ -54,10 +54,6 @@ var Socket = {
         io.to(recipient).emit('incoming beam', beam);
       });
 
-      socket.on('sign in', function(socket){
-        console.log("user signed in");
-      });
-
       socket.on('away status change', function(socket){
         console.log("user is away");
       });
