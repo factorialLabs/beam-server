@@ -31,10 +31,21 @@ var Socket = {
       secret: secrets.jwt.secretOrKey,
       timeout: 15000 // 15 seconds to send the authentication message
     })).on('authenticated', function(socket) {
-      //this socket is authenticated, we are good to handle more events from it.
-      console.log('signed in: ' + socket.decoded_token.email);
 
+      //this socket is authenticated, we are good to handle more events from it.
+      var user = socket.decoded_token.email;
+      console.log('signed in: ' + user);
       userIds[socket.decoded_token.email] = socket.id;
+
+      //grab a reference to the user
+      User.findOne({ email: user.toLowerCase() }, function(err, user) {
+        //send to the client all outstanding friend requests
+        socket.emit("friend:requests", {requests: user.pending_friends});
+      });
+
+      /*
+       * Event Handlers
+       */
 
       socket.on('beam tab', function(beam){
         console.log("incoming beam", beam);
