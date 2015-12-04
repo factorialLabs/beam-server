@@ -18,7 +18,7 @@ var Socket = {
     User.findOne({ email: from.toLowerCase() }, function(err, existingUser) {
       if (existingUser) {
         User.findOne({ email: to.toLowerCase() }, function(err, toUser) {
-          toUser.getFriendInvite(existingUser, cb);
+          toUser.addFriendInvite(existingUser, cb);
         });
       } else {
         cb({error: "no user found with that username!"});
@@ -38,7 +38,7 @@ var Socket = {
       userIds[socket.decoded_token.email] = socket.id;
 
       //grab a reference to the user
-      User.findOne({ email: user.toLowerCase() }, function(err, user) {
+      User.findOne({ email: user.toLowerCase() }).populate('pending_friends').exec(function(err, user) {
         //send to the client all outstanding friend requests
         socket.emit("friend:requests", {requests: user.pending_friends});
       });
@@ -63,9 +63,9 @@ var Socket = {
         Socket.handleAddFriendRequest(socket.decoded_token.email, msg, function(err){
           console.log(err);
           if(err){
-
+            console.log("error:", err);
           }else{
-
+            socket.emit("friend:requests", {requests: user.pending_friends});
           }
         });
 

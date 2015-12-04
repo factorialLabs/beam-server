@@ -61,7 +61,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 /**
  * Helper method to add a friend (adds it into pending requests)
  */
-userSchema.methods.getFriendInvite = function(toFriend, cb) {
+userSchema.methods.addFriendInvite = function(toFriend, cb) {
   //cannot be self
   if(toFriend._id == this._id) {
     cb({error: 'cannot befriend self'});
