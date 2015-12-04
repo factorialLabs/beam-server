@@ -38,7 +38,7 @@ var Socket = {
       userIds[socket.decoded_token.email] = socket.id;
 
       //grab a reference to the user
-      User.findOne({ email: user.toLowerCase() }).populate('pending_friends').exec(function(err, user) {
+      User.findOne({ email: user.toLowerCase() }).populate('pending_friends', 'email username').exec(function(err, user) {
         //send to the client all outstanding friend requests
         socket.emit("friend:requests", {requests: user.pending_friends});
       });
