@@ -43,6 +43,14 @@ var Socket = {
         socket.emit("friend:requests", {requests: user.pending_friends});
       });
 
+      //send all users to the connecting user
+      //todo only show friends
+      User.find({}, "email username", function(err, users) {
+        if(!err){
+          socket.emit("users:show all", {users: users});
+        }
+      });
+
       /*
        * Event Handlers
        */
@@ -54,7 +62,7 @@ var Socket = {
         io.to(recipient).emit('incoming beam', beam);
       });
 
-      socket.on('away status change', function(socket){
+      socket.on('away status change', function(msg){
         console.log("user is away");
       });
 
@@ -71,7 +79,7 @@ var Socket = {
 
       });
 
-      socket.on('accept friend invite', function(socket){
+      socket.on('accept friend invite', function(msg){
         console.log("user accepted friend invite");
       });
 
