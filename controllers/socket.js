@@ -7,6 +7,14 @@ var userIds = {};
 
 
 var Socket = {
+  isSocketIdConnected: function(id, io){
+    if(io.sockets.connected[id] != undefined){
+      return io.sockets.connected[id].connected; //or disconected property
+    }else{
+      return false;
+    }
+  },
+
   broadcastStatusToFriends: function(user, status){
     user.friends.forEach(function(friend, index) {
       var recipient = userIds[friend.email];
@@ -43,17 +51,24 @@ var Socket = {
         socket.emit("friend:requests", {requests: user.pending_friends});
       });
 
-      //send all users to the connecting user
-      //todo only show friends
-      User.find({}, "email username", function(err, users) {
-        if(!err){
-          socket.emit("users:show all", {users: users});
-        }
-      });
-
       /*
        * Event Handlers
        */
+
+      socket.on('user:show all:request', function(msg){
+        //send all users to the connecting user
+        //todo only show friends
+        User.find({}, "email username", function(err, users) {
+          users = users.map(function(user){
+            var userJSON = user.toJSON()
+            userJSON.isConnected = Socket.isSocketIdConnected(userIds[user.email], io);
+            return userJSON;
+          });
+          if(!err){
+            socket.emit("users:show all", {users: users});
+          }
+        });
+      });
 
       socket.on('beam tab', function(beam){
         console.log("incoming beam", beam);
