@@ -59,12 +59,12 @@ var Socket = {
         //send all users to the connecting user
         //todo only show friends
         User.find({}, "email username", function(err, users) {
-          users = users.map(function(user){
-            var userJSON = user.toJSON()
-            userJSON.isConnected = Socket.isSocketIdConnected(userIds[user.email], io);
-            return userJSON;
-          });
           if(!err){
+            users = users.map(function(user){
+              var userJSON = user.toJSON()
+              userJSON.isConnected = Socket.isSocketIdConnected(userIds[user.email], io);
+              return userJSON;
+            });
             socket.emit("users:show all", {users: users});
           }
         });
