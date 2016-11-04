@@ -13,10 +13,8 @@ var lusca = require('lusca');
 var methodOverride = require('method-override');
 
 var _ = require('lodash');
-var MongoStore = require('connect-mongo')(session);
 var flash = require('express-flash');
 var path = require('path');
-var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 
@@ -43,15 +41,6 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 /**
- * Connect to MongoDB.
- */
-mongoose.connect(secrets.db);
-mongoose.connection.on('error', function() {
-  console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
-  process.exit(1);
-});
-
-/**
  * Express configuration.
  */
 app.set('port', process.env.PORT || 3000);
@@ -68,8 +57,7 @@ app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: secrets.sessionSecret,
-  store: new MongoStore({ url: secrets.db, autoReconnect: true })
+  secret: secrets.sessionSecret
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -120,34 +108,6 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
  */
 app.post('/api/login', apiController.postLogin);
 
-/**
- * API examples routes.
- */
-app.get('/apiEx', apiExamplesController.getApi);
-app.get('/apiEx/facebook', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getFacebook);
-app.get('/apiEx/github', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getGithub);
-app.get('/apiEx/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.getTwitter);
-app.post('/apiEx/twitter', passportConf.isAuthenticated, passportConf.isAuthorized, apiExamplesController.postTwitter);
-
-/**
- * OAuth authentication routes. (Sign in)
- */
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
 /**
  * Error Handler.
  */

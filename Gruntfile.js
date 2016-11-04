@@ -31,21 +31,6 @@ module.exports = function (grunt) {
     watch: {
       gruntfile: {
         files: ['Gruntfile.js']
-      },
-      sass: {
-        files: ['scss/*.scss'],
-        tasks: ['sass']
-      }
-    },
-    sass: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: 'scss',
-          src: ['*.scss'],
-          dest: 'public/css',
-          ext: '.css'
-        }]
       }
     }
   });
@@ -59,12 +44,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
   ]);
 
-  grunt.registerTask('build', [
-    'sass'
-  ]);
-
   grunt.registerTask('default', [
-    'test',
-    'build'
+    'test'
   ]);
 };
