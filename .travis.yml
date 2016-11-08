@@ -3,3 +3,7 @@ sudo: false
 
 node_js:
   - "6"
+
+branches:
+  only:
+    - master
