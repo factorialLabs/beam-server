@@ -1,4 +1,4 @@
-beam-server 
+# beam-server
 [![Build Status](https://travis-ci.org/factorialLabs/beam-server.svg)](https://travis-ci.org/factorialLabs/beam-server)
 ========
 
