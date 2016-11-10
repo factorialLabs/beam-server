@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "driver": "pg",
+    "filename": "~/dev.db"
+  },
+  "pg": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "password",
+    "host": "localhost",
+    "database": "beam_development"
+  },
+  "sql-file": true
+}
