@@ -3,6 +3,35 @@ var crypto = require('crypto');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var knex = require('knex')({
+  client: 'pq',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : 'postgres',
+    database : 'myapp_test'
+  }
+});
+
+knex.schema.withSchema('public').createTable('users', function (table) {
+  /* id UNSIGNED INT AUTO INCREMENT,
+  password CHAR(60),
+  email VARCHAR(255) UNIQUE,
+  username VARCHAR(255) UNIQUE,
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP, 
+  password_reset_token BINARY(32),
+  password_reset_token_expiry TIMESTAMP,
+  PRIMARY KEY(id) */
+  table.increments();
+  table.timestamps();
+  table.string('password', 60);
+  table.string('email', 255);
+  table.string('username', 255);
+  table.binary('password_reset_token');
+  table.timestamps('password_reset_token_expiry');
+});
+
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   username: { type: String, unique: true, lowercase: true },
