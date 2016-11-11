@@ -1,7 +1,5 @@
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
 const db = require('../../lib/db');
 const TABLES = require('../constants/tables.json');
@@ -9,7 +7,7 @@ const TABLES = require('../constants/tables.json');
 export default class User {
 
   // Example methods
-  static get (selectParams) {
+  static get(selectParams) {
     return db.select(selectParams).from(TABLES.USERS)
             .then((rows) => {
               // Create a new User from each row
@@ -19,36 +17,7 @@ export default class User {
               //Throw if desired
             });
   }
-};
-
-var userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  username: { type: String, unique: true, lowercase: true },
-
-  password: String,
-
-  friends: [{ type : Schema.ObjectId, ref : 'User' }],
-  pending_friends: [{ type : Schema.ObjectId, ref : 'User' }],
-
-  facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  instagram: String,
-  linkedin: String,
-  tokens: Array,
-
-  profile: {
-    name: { type: String, default: '' },
-    gender: { type: String, default: '' },
-    location: { type: String, default: '' },
-    website: { type: String, default: '' },
-    picture: { type: String, default: '' }
-  },
-
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
-});
+}
 
 /**
  * Password hash middleware.
