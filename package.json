@@ -12,7 +12,9 @@
   "scripts": {
     "start": "nodemon ./src/app.js",
     "test": "mocha --reporter spec --timeout 5000",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "db-migrate:up": "DEBUG=knex:tx knex migrate:latest",
+    "db-migrate:down": "DEBUG=knex:tx knex migrate:rollback"
   },
   "dependencies": {
     "async": "^1.5.0",
