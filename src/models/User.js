@@ -6,25 +6,6 @@ var Schema = mongoose.Schema;
 const db = require('../../lib/db');
 const TABLES = require('../constants/tables.json');
 
-db.schema.withSchema('public').createTable('users', function (table) {
-  /* id UNSIGNED INT AUTO INCREMENT,
-  password CHAR(60),
-  email VARCHAR(255) UNIQUE,
-  username VARCHAR(255) UNIQUE,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
-  password_reset_token BINARY(32),
-  password_reset_token_expiry TIMESTAMP,
-  PRIMARY KEY(id) */
-  table.increments();
-  table.timestamps();
-  table.string('password', 60);
-  table.string('email', 255);
-  table.string('username', 255);
-  table.binary('password_reset_token');
-  table.timestamps('password_reset_token_expiry');
-});
-
 export default class User {
 
   // Example methods
