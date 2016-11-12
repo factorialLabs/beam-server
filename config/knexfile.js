@@ -11,6 +11,10 @@ module.exports = {
       database: 'beam_development',
       debug: true,
     },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: '../migrations',
+    },
   },
   test: {
     client: 'pg',
@@ -21,6 +25,10 @@ module.exports = {
       password: 'password',
       database: 'beam_test',
       debug: true,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: '../migrations',
     },
   },
   staging: {

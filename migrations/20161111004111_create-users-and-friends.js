@@ -1,32 +1,36 @@
 
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('users', function (table) {
-    /* id UNSIGNED INT AUTO INCREMENT,
-    password CHAR(60),
-    email VARCHAR(255) UNIQUE,
-    username VARCHAR(255) UNIQUE,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    password_reset_token BINARY(32),
-    password_reset_token_expiry TIMESTAMP,
-    PRIMARY KEY(id) */
-    table.increments('id');
-    table.timestamps(true, true);
-    table.string('password', 60);
-    table.string('email', 255);
-    table.string('username', 255);
-    table.binary('password_reset_token');
-    table.timestamp('password_reset_token_expiry');
-    table.boolean('accepted');
-  })
-  .then((status) => {
-    console.log(status);
-  })
-  .catch((err) => {
-    console.log("error", err);
-  });
+exports.up = function (knex, Promise) {
+  return Promise.all([
+    knex.schema.createTable('users', function (table) {
+      table.increments('id').unsigned();
+      table.timestamp('created_at').defaultTo('CURRENT_TIMESTAMP');
+      table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      table.string('password', 60);
+      table.string('email', 255);
+      table.string('username', 255);
+      table.binary('password_reset_token');
+      table.timestamp('password_reset_token_expiry');
+      table.boolean('accepted');
+    }),
+    knex.schema.createTable('friends', function (table) {
+      table.integer('requestor').notNullable();
+      table.integer('requestee').notNullable();
+      table.timestamp('created_at').defaultTo('CURRENT_TIMESTAMP');
+      table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      table.boolean('accepted').notNullable();
+      table.primary(['requestor', 'requestee']);
+      table.foreign('reuqestor').references('users.id');
+      table.foreign('requestee').references('users.id');
+    })])
+    .then((status) => {
+      console.log(status);
+      console.log('Successful migration!');
+    })
+    .catch((err) => {
+      console.log('Migration failed:', err);
+    });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   return knex.schema.dropTable('users');
 };
