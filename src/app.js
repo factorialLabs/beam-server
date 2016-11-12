@@ -7,6 +7,7 @@ var compress = require('compression');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+const log = require('../lib/log');
 var errorHandler = require('errorhandler');
 var lusca = require('lusca');
 var methodOverride = require('method-override');
@@ -112,4 +113,5 @@ http.listen(app.get('port'), function(){
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
+log.info('booted up!');
 module.exports = app;

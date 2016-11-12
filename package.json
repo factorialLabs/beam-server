@@ -10,7 +10,7 @@
     "npm": "3.10.8"
   },
   "scripts": {
-    "start": "set NODE_ENV=development && nodemon ./src/app.js",
+    "start": "NODE_ENV=development nodemon ./src/app.js | node_modules/.bin/bunyan",
     "test": "mocha --reporter spec --timeout 5000",
     "lint": "eslint ./src",
     "db-migrate:up": "DEBUG=knex:tx knex migrate:latest",
