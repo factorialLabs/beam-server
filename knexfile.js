@@ -12,6 +12,17 @@ module.exports = {
       debug: true,
     },
   },
+  test: {
+    client: 'pg',
+    connection: {
+      host: '127.0.0.1',
+      port: 5432,
+      user: 'postgres',
+      password: 'password',
+      database: 'beam_test',
+      debug: true,
+    },
+  },
   staging: {
     client: 'postgresql',
     connection: {

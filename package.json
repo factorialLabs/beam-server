@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development node_modules/.bin/nodemon ./src/app.js | node_modules/.bin/bunyan",
-    "test": "mocha --reporter spec --timeout 5000",
+    "test": "NODE_ENV=test mocha --reporter spec --timeout 5000",
     "lint": "eslint ./src",
     "db-migrate:up": "DEBUG=knex:tx knex migrate:latest",
     "db-migrate:down": "DEBUG=knex:tx knex migrate:rollback"
