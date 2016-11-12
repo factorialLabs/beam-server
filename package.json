@@ -10,7 +10,7 @@
     "npm": "3.10.8"
   },
   "scripts": {
-    "start": "nodemon ./src/app.js",
+    "start": "set NODE_ENV=development && nodemon ./src/app.js | ./node_modules/.bin/bunyan",
     "test": "mocha --reporter spec --timeout 5000",
     "lint": "eslint ./src",
     "db-migrate:up": "DEBUG=knex:tx knex migrate:latest",
@@ -22,6 +22,7 @@
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.4.6",
     "body-parser": "^1.14.1",
+    "bunyan": "^1.8.1",
     "cfenv": "1.0.3",
     "compression": "^1.6.0",
     "connect-assets": "^5.0.1",
@@ -60,7 +61,7 @@
     "grunt": "~0.4.5",
     "mocha": "^2.3.3",
     "multiline": "^1.0.2",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.9.0",
     "supertest": "^1.1.0"
   }
 }

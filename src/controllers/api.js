@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var secrets = require('../config/secrets');
+var secrets = require('../../config/secrets');
 var jwt = require('jwt-simple');
 var passport = require('passport');
 var User = require('../models/User');

@@ -1,5 +1,5 @@
 "use strict";
-var secrets = require('../config/secrets');
+var secrets = require('../../config/secrets');
 var socketioJwt = require('socketio-jwt');
 var User = require('../models/User');
 

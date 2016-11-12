@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
-var secrets = require('../config/secrets');
+var secrets = require('../../config/secrets');
 
 /**
  * GET /login
@@ -53,7 +53,7 @@ exports.postLogin = function(req, res, next) {
 exports.logout = function(req, res) {
   req.session.destroy(function(){
     res.redirect('/');
-  }); 
+  });
 };
 
 /**
