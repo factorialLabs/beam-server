@@ -1,22 +1,39 @@
-var bcrypt = require('bcrypt-nodejs');
-var crypto = require('crypto');
+const bcrypt = require('bcrypt-nodejs');
+const crypto = require('crypto');
 
+const log = require('../../lib/log').child({ module: 'models:user' });
 const db = require('../../lib/db');
 const TABLES = require('../constants/tables.json');
 
 class User {
 
   // Example methods
-  static get(selectParams) {
-    return db.select(selectParams).from(TABLES.USERS)
+  static get(selectParams, whereParams) {
+    return db.select(selectParams).from(TABLES.USERS).where(whereParams)
             .then((rows) => {
-              // Create a new User from each row
+              if (!rows) {
+                return [];
+              }
+
+              return rows.map(row => new User(row));
             })
             .catch((err) => {
-              console.log(err);
-              //Throw if desired
+              log.error({ error: err.stack }, 'Error getting User');
             });
   }
+
+  static insert() {
+
+  }
+
+  addFriend() {
+
+  }
+
+  acceptFriend() {
+
+  }
+  
 }
 
 /**
@@ -78,16 +95,6 @@ class User {
 //     this.pending_friends.splice(index, 1);
 //     cb(null);
 //   }
-// };
-//
-// /**
-//  * Helper method for getting user's gravatar.
-//  */
-// userSchema.methods.gravatar = function(size) {
-//   if (!size) size = 200;
-//   if (!this.email) return 'https://gravatar.com/avatar/?s=' + size + '&d=retro';
-//   var md5 = crypto.createHash('md5').update(this.email).digest('hex');
-//   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 // };
 
 module.exports = User;
