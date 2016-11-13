@@ -31,8 +31,6 @@ var io = require('socket.io')(http);
  * Express configuration.
  */
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 app.use(compress());
 app.use(logger('dev'));
 app.use(bodyParser.json());
