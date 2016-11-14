@@ -7,17 +7,6 @@ var User = require('../models/User');
 var secrets = require('../../config/secrets');
 
 /**
- * GET /login
- * Login page.
- */
-exports.getLogin = function(req, res) {
-  if (req.user) return res.redirect('/');
-  res.render('account/login', {
-    title: 'Login'
-  });
-};
-
-/**
  * POST /login
  * Sign in using email and password.
  */
@@ -57,17 +46,6 @@ exports.logout = function(req, res) {
 };
 
 /**
- * GET /signup
- * Signup page.
- */
-exports.getSignup = function(req, res) {
-  if (req.user) return res.redirect('/');
-  res.render('account/signup', {
-    title: 'Create Account'
-  });
-};
-
-/**
  * POST /signup
  * Create a new local account.
  */
@@ -102,16 +80,6 @@ exports.postSignup = function(req, res, next) {
         res.redirect('/');
       });
     });
-  });
-};
-
-/**
- * GET /account
- * Profile page.
- */
-exports.getAccount = function(req, res) {
-  res.render('account/profile', {
-    title: 'Account Management'
   });
 };
 
@@ -178,48 +146,6 @@ exports.postDeleteAccount = function(req, res, next) {
 };
 
 /**
- * GET /account/unlink/:provider
- * Unlink OAuth provider.
- */
-exports.getOauthUnlink = function(req, res, next) {
-  var provider = req.params.provider;
-  User.findById(req.user.id, function(err, user) {
-    if (err) return next(err);
-
-    user[provider] = undefined;
-    user.tokens = _.reject(user.tokens, function(token) { return token.kind === provider; });
-
-    user.save(function(err) {
-      if (err) return next(err);
-      req.flash('info', { msg: provider + ' account has been unlinked.' });
-      res.redirect('/account');
-    });
-  });
-};
-
-/**
- * GET /reset/:token
- * Reset Password page.
- */
-exports.getReset = function(req, res) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-  User
-    .findOne({ resetPasswordToken: req.params.token })
-    .where('resetPasswordExpires').gt(Date.now())
-    .exec(function(err, user) {
-      if (!user) {
-        req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
-        return res.redirect('/forgot');
-      }
-      res.render('account/reset', {
-        title: 'Password Reset'
-      });
-    });
-};
-
-/**
  * POST /reset/:token
  * Process the reset password request.
  */
@@ -280,19 +206,6 @@ exports.postReset = function(req, res, next) {
   ], function(err) {
     if (err) return next(err);
     res.redirect('/');
-  });
-};
-
-/**
- * GET /forgot
- * Forgot Password page.
- */
-exports.getForgot = function(req, res) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-  res.render('account/forgot', {
-    title: 'Forgot Password'
   });
 };
 
