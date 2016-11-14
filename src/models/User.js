@@ -5,7 +5,18 @@ const log = require('../../lib/log').child({ module: 'models:user' });
 const db = require('../../lib/db');
 const TABLES = require('../constants/tables.json');
 
-class User {
+export default class User {
+  constructor(params) {
+    this.id = params.id;
+    this.created_at = params.created_at;
+    this.updated_at = params.updated_at;
+    this.password = params.password;
+    this.email = params.email;
+    this.username = params.username;
+    this.password_reset_token = params.password_reset_token;
+    this.password_reset_token_expiry = params.password_reset_token_expiry;
+    this.accepted = params.accepted;
+  }
 
   // Example methods
   static get(selectParams, whereParams) {
