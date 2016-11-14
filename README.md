@@ -7,7 +7,6 @@
 1. Get Node and npm
 2. Clone this repo
 3. `npm install`
-4. `npm install -g knex`
 
 ## DB
 
@@ -22,10 +21,10 @@ DB Mock for Tests: TBD
 
 ### Running migrations
 
-Creation: `knex migrate:make NAME`
+Creation: `npm run db-migrate:create $NAME`
 
-Up: `knex migrate:latest`
+Up: `npm run db-migrate:up`
 
-Down: `knex migrate:rollback`
+Down: `npm run db-migrate:down`
 
-For debug, run with `DEBUG=knex:tx` prefixed. Migrations are in the `/migrations` folder
+Migrations are in the `/migrations` folder
