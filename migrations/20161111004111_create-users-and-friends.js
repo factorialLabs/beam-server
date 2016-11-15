@@ -3,8 +3,7 @@ exports.up = function (knex, Promise) {
   return Promise.all([
     knex.schema.createTable('users', function (table) {
       table.increments('id').unsigned();
-      table.timestamp('created_at').defaultTo('CURRENT_TIMESTAMP');
-      table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      table.timestamps();
       table.string('password', 60);
       table.string('email', 255);
       table.string('username', 255);
@@ -15,11 +14,10 @@ exports.up = function (knex, Promise) {
     knex.schema.createTable('friends', function (table) {
       table.integer('requestor').notNullable();
       table.integer('requestee').notNullable();
-      table.timestamp('created_at').defaultTo('CURRENT_TIMESTAMP');
-      table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      table.timestamps();
       table.boolean('accepted').notNullable();
       table.primary(['requestor', 'requestee']);
-      table.foreign('reuqestor').references('users.id');
+      table.foreign('requestor').references('users.id');
       table.foreign('requestee').references('users.id');
     })])
     .then((status) => {
