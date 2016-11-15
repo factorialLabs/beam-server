@@ -7,3 +7,11 @@ node_js:
 branches:
   only:
     - master
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database beam_test;' -U postgres
+
+script: npm run build && npm run test
