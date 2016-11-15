@@ -15,7 +15,8 @@
     "lint": "eslint ./src",
     "db-migrate:create": "cross-env DEBUG=knex:tx knex migrate:make $NAME --knexfile=config/knexfile.js",
     "db-migrate:up": "cross-env DEBUG=knex:tx knex migrate:latest --knexfile=config/knexfile.js",
-    "db-migrate:down": "cross-env DEBUG=knex:tx knex migrate:rollback --knexfile=config/knexfile.js"
+    "db-migrate:down": "cross-env DEBUG=knex:tx knex migrate:rollback --knexfile=config/knexfile.js",
+    "build": "cross-env NODE_ENV=test DEBUG=knex:tx knex migrate:latest --knexfile=config/knexfile.js"
   },
   "dependencies": {
     "async": "^1.5.0",
