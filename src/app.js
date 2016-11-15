@@ -13,7 +13,6 @@ var path = require('path');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 
-var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var socketController = require('./controllers/socket');
 
@@ -62,18 +61,6 @@ app.use(function(req, res, next) {
  *  Socket connection endpoints
  */
 socketController.setIo(io);
-
-/**
- * Primary app routes.
- */
-app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout, socketController.logout);
-app.post('/forgot', userController.postForgot);
-app.post('/reset/:token', userController.postReset);
-app.post('/signup', userController.postSignup);
-app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
-app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
-app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 
 /**
  * API Routes
