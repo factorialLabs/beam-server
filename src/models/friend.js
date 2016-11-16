@@ -5,8 +5,8 @@ const log = require('../../lib/log').child({ module: 'models:friend' });
 
 class Friend {
   static getFriends(id) {
-    return db(TABLES.FRIENDS).select('requestee').as('id').where({ requestor: id, accepted: true }).union(function () {
-      this.select('requestor').as('id').where({ requestee: id, accepted: true });
+    return db(TABLES.FRIENDS).select('requestee').where({ requestor: id, accepted: true }).union(function () {
+      this.select('requestor').from(TABLES.FRIENDS).where({ requestee: id, accepted: true });
     });
   }
 

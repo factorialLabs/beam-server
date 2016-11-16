@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const _ = require('lodash');
 const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
 
 const log = require('../../lib/log').child({ module: 'models:user' });
@@ -28,14 +29,21 @@ class User {
   }
 
   // Example methods
-  static get(selectParams, whereParams) {
-    return db.select(selectParams).from(TABLES.USERS).where(whereParams)
-            .then((rows) => {
-              if (!rows) {
-                return [];
-              }
+  static getBulkById(ids) {
+    return db.select(['id', 'username', 'email']).from(TABLES.USERS).whereIn({ id: ids })
+      .map((user) => {
+        return new User(user);
+      })
+      .catch((err) => {
+        log.error({ error: err.stack }, 'Error getting Users');
+      });
+  }
 
-              return rows.map(row => new User(row));
+  static first(selectParams, whereParams) {
+    return db.first(selectParams).from(TABLES.USERS).where(whereParams)
+            .then((user) => {
+              if (!user) return undefined;
+              return new User(user);
             })
             .catch((err) => {
               log.error({ error: err.stack }, 'Error getting User');
@@ -45,7 +53,7 @@ class User {
   static create({ username, email, password }) {
     return securePassword(password)
     .then((hashedPassword) => {
-      return db(TABLES.USERS).insert({ username, email, password: hashedPassword })
+      return db(TABLES.USERS).insert({ username, email, password: hashedPassword });
     })
     .then((newUser) => {
       log.debug('User Created!');
@@ -53,7 +61,6 @@ class User {
       return user;
     });
   }
-
 
   addFriend(friendId) {
     return Friend.create({ requestor: this.id, requestee: friendId });
@@ -63,11 +70,26 @@ class User {
     return Friend.accept({ requestor: friendId, requestee: this.id });
   }
 
+  friendRequests() {
+    return db(TABLES.USERS).join(TABLES.FRIENDS, 'users.id', '=', 'friends.requestor')
+      .select(['users.id', 'users.username'])
+      .where('friends.requestee', this.id)
+      .map((user) => {
+        return new User(user);
+      });
+  }
+
   getFriends() {
     return Friend.getFriends(this.id)
       .then((ids) => {
-
+        return _.reduce(ids, (acc, obj) => {
+          const id = obj.requestor || obj.requestee;
+          return acc.push(id);
+        }, []);
       })
+      .then((ids) => {
+        return User.getBulkById(ids);
+      });
   }
 
   validatePassword(provided) {
