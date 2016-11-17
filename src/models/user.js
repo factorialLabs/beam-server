@@ -30,7 +30,7 @@ class User {
 
   // Example methods
   static getBulkById(ids) {
-    return db.select(['id', 'username', 'email']).from(TABLES.USERS).whereIn({ id: ids })
+    return db.select(['id', 'username', 'email']).from(TABLES.USERS).whereIn('id', ids)
       .map((user) => {
         return new User(user);
       })

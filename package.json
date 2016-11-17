@@ -56,14 +56,15 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "cross-env": "^3.1.3",
     "eslint": "^3.9.1",
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",
     "grunt": "~0.4.5",
     "mocha": "^2.3.3",
+    "mock-knex": "^0.3.7",
     "multiline": "^1.0.2",
     "nodemon": "^1.9.0",
-    "supertest": "^1.1.0",
-    "cross-env": "^3.1.3"
+    "supertest": "^1.1.0"
   }
 }
