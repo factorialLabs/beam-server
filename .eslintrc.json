@@ -5,6 +5,8 @@
       "sourceType": "module"
   },
   "rules": {
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "arrow-body-style": ["error", "always"],
+    "yoda": ["error", "never", { "onlyEquality": true }]
   }
 }
