@@ -65,7 +65,8 @@ socketController.setIo(io);
 /**
  * API Routes
  */
-app.post('/api/login', apiController.postLogin);
+app.post('/login', apiController.postLogin);
+app.post('/signup', apiController.postSignup);
 
 /**
  * Error Handler.

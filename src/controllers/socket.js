@@ -5,7 +5,6 @@ var User = require('../models/User');
 
 var userIds = {};
 
-
 var Socket = {
   isSocketIdConnected: function(id, io){
     if(io.sockets.connected[id] != undefined){
