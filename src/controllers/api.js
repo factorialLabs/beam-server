@@ -58,7 +58,7 @@ exports.postSignup = function(req, res, next) {
                 username: req.body.username,
                 password: req.body.password
             }).then((user) => {
-            if (!user) return res.status(500);;
+            if (!user) return res.status(500);
             return res.status(200);
             // auto login the user here
         });
