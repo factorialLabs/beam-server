@@ -20,9 +20,9 @@ passport.deserializeUser(function(id, done) {
  */
 passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
   email = email.toLowerCase();
-  User.findOne({ email: email }, function(err, user) {
+  User.first(['id', 'username', 'email', 'password'], { email : email }).then((user) => {
     if (!user) return done(null, false, { message: 'Email ' + email + ' not found'});
-    user.comparePassword(password, function(err, isMatch) {
+    user.validatePassword(password).then((isMatch) => {
       if (isMatch) {
         return done(null, user);
       } else {
